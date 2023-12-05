@@ -1,7 +1,8 @@
+//go:build (darwin || dragonfly || freebsd || netbsd || openbsd || hurd) && !js
 // +build darwin dragonfly freebsd netbsd openbsd hurd
 // +build !js
 
-package logrus
+package logrusy
 
 import "golang.org/x/sys/unix"
 

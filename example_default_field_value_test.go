@@ -1,28 +1,28 @@
-package logrus_test
+package logrusy_test
 
 import (
 	"os"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 )
 
 type DefaultFieldHook struct {
 	GetValue func() string
 }
 
-func (h *DefaultFieldHook) Levels() []logrus.Level {
-	return logrus.AllLevels
+func (h *DefaultFieldHook) Levels() []logrusy.Level {
+	return logrusy.AllLevels
 }
 
-func (h *DefaultFieldHook) Fire(e *logrus.Entry) error {
+func (h *DefaultFieldHook) Fire(e *logrusy.Entry) error {
 	e.Data["aDefaultField"] = h.GetValue()
 	return nil
 }
 
 func ExampleDefaultFieldHook() {
-	l := logrus.New()
+	l := logrusy.New()
 	l.Out = os.Stdout
-	l.Formatter = &logrus.TextFormatter{DisableTimestamp: true, DisableColors: true}
+	l.Formatter = &logrusy.TextFormatter{DisableTimestamp: true, DisableColors: true}
 
 	l.AddHook(&DefaultFieldHook{GetValue: func() string { return "with its default value" }})
 	l.Info("first log")

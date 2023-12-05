@@ -1,4 +1,4 @@
-package logrus_test
+package logrusy_test
 
 import (
 	"os"
@@ -6,14 +6,14 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 )
 
 func ExampleJSONFormatter_CallerPrettyfier() {
-	l := logrus.New()
+	l := logrusy.New()
 	l.SetReportCaller(true)
 	l.Out = os.Stdout
-	l.Formatter = &logrus.JSONFormatter{
+	l.Formatter = &logrusy.JSONFormatter{
 		DisableTimestamp: true,
 		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
 			s := strings.Split(f.Function, ".")

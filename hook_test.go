@@ -1,4 +1,4 @@
-package logrus_test
+package logrusy_test
 
 import (
 	"bytes"
@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	. "github.com/sirupsen/logrus"
-	"github.com/sirupsen/logrus/hooks/test"
-	. "github.com/sirupsen/logrus/internal/testutils"
+	. "github.com/Hidayathamir/logrusy"
+	"github.com/Hidayathamir/logrusy/hooks/test"
+	. "github.com/Hidayathamir/logrusy/internal/testutils"
 )
 
 type TestHook struct {

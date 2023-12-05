@@ -1,3 +1,4 @@
+//go:build !windows && !nacl && !plan9
 // +build !windows,!nacl,!plan9
 
 package syslog
@@ -7,7 +8,7 @@ import (
 	"log/syslog"
 	"os"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 )
 
 // SyslogHook to send logs via syslog.
@@ -25,7 +26,7 @@ func NewSyslogHook(network, raddr string, priority syslog.Priority, tag string) 
 	return &SyslogHook{w, network, raddr}, err
 }
 
-func (hook *SyslogHook) Fire(entry *logrus.Entry) error {
+func (hook *SyslogHook) Fire(entry *logrusy.Entry) error {
 	line, err := entry.String()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to read entry, %v", err)
@@ -33,23 +34,23 @@ func (hook *SyslogHook) Fire(entry *logrus.Entry) error {
 	}
 
 	switch entry.Level {
-	case logrus.PanicLevel:
+	case logrusy.PanicLevel:
 		return hook.Writer.Crit(line)
-	case logrus.FatalLevel:
+	case logrusy.FatalLevel:
 		return hook.Writer.Crit(line)
-	case logrus.ErrorLevel:
+	case logrusy.ErrorLevel:
 		return hook.Writer.Err(line)
-	case logrus.WarnLevel:
+	case logrusy.WarnLevel:
 		return hook.Writer.Warning(line)
-	case logrus.InfoLevel:
+	case logrusy.InfoLevel:
 		return hook.Writer.Info(line)
-	case logrus.DebugLevel, logrus.TraceLevel:
+	case logrusy.DebugLevel, logrusy.TraceLevel:
 		return hook.Writer.Debug(line)
 	default:
 		return nil
 	}
 }
 
-func (hook *SyslogHook) Levels() []logrus.Level {
-	return logrus.AllLevels
+func (hook *SyslogHook) Levels() []logrusy.Level {
+	return logrusy.AllLevels
 }

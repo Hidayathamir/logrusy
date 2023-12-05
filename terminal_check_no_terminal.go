@@ -1,6 +1,7 @@
+//go:build js || nacl || plan9
 // +build js nacl plan9
 
-package logrus
+package logrusy
 
 import (
 	"io"

@@ -1,3 +1,4 @@
+//go:build !windows && !nacl && !plan9
 // +build !windows,!nacl,!plan9
 
 package syslog
@@ -6,11 +7,11 @@ import (
 	"log/syslog"
 	"testing"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 )
 
 func TestLocalhostAddAndPrint(t *testing.T) {
-	log := logrus.New()
+	log := logrusy.New()
 	hook, err := NewSyslogHook("udp", "localhost:514", syslog.LOG_INFO, "")
 
 	if err != nil {

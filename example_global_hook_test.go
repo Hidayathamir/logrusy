@@ -1,9 +1,9 @@
-package logrus_test
+package logrusy_test
 
 import (
 	"os"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 )
 
 var (
@@ -13,19 +13,19 @@ var (
 type GlobalHook struct {
 }
 
-func (h *GlobalHook) Levels() []logrus.Level {
-	return logrus.AllLevels
+func (h *GlobalHook) Levels() []logrusy.Level {
+	return logrusy.AllLevels
 }
 
-func (h *GlobalHook) Fire(e *logrus.Entry) error {
+func (h *GlobalHook) Fire(e *logrusy.Entry) error {
 	e.Data["mystring"] = mystring
 	return nil
 }
 
 func ExampleGlobalHook() {
-	l := logrus.New()
+	l := logrusy.New()
 	l.Out = os.Stdout
-	l.Formatter = &logrus.TextFormatter{DisableTimestamp: true, DisableColors: true}
+	l.Formatter = &logrusy.TextFormatter{DisableTimestamp: true, DisableColors: true}
 	l.AddHook(&GlobalHook{})
 	mystring = "first value"
 	l.Info("first log")

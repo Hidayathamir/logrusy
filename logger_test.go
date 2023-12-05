@@ -1,4 +1,4 @@
-package logrus
+package logrusy
 
 import (
 	"bytes"
@@ -70,7 +70,7 @@ func TestWarninglnNotEqualToWarning(t *testing.T) {
 
 type testBufferPool struct {
 	buffers []*bytes.Buffer
-	get int
+	get     int
 }
 
 func (p *testBufferPool) Get() *bytes.Buffer {

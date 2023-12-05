@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-  log       := logrus.New()
+  log       := logrusy.New()
   hook, err := lSyslog.NewSyslogHook("udp", "localhost:514", syslog.LOG_INFO, "")
 
   if err == nil {
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-  log       := logrus.New()
+  log       := logrusy.New()
   hook, err := lSyslog.NewSyslogHook("", "", syslog.LOG_INFO, "")
 
   if err == nil {

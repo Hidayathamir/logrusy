@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,12 +18,12 @@ func TestAllHooks(t *testing.T) {
 	assert.Equal(0, len(hook.Entries))
 
 	logger.Error("Hello error")
-	assert.Equal(logrus.ErrorLevel, hook.LastEntry().Level)
+	assert.Equal(logrusy.ErrorLevel, hook.LastEntry().Level)
 	assert.Equal("Hello error", hook.LastEntry().Message)
 	assert.Equal(1, len(hook.Entries))
 
 	logger.Warn("Hello warning")
-	assert.Equal(logrus.WarnLevel, hook.LastEntry().Level)
+	assert.Equal(logrusy.WarnLevel, hook.LastEntry().Level)
 	assert.Equal("Hello warning", hook.LastEntry().Message)
 	assert.Equal(2, len(hook.Entries))
 
@@ -33,8 +33,8 @@ func TestAllHooks(t *testing.T) {
 
 	hook = NewGlobal()
 
-	logrus.Error("Hello error")
-	assert.Equal(logrus.ErrorLevel, hook.LastEntry().Level)
+	logrusy.Error("Hello error")
+	assert.Equal(logrusy.ErrorLevel, hook.LastEntry().Level)
 	assert.Equal("Hello error", hook.LastEntry().Message)
 	assert.Equal(1, len(hook.Entries))
 }
@@ -63,7 +63,7 @@ func TestLoggingWithHooksRace(t *testing.T) {
 
 	wgOne.Wait()
 
-	assert.Equal(logrus.InfoLevel, hook.LastEntry().Level)
+	assert.Equal(logrusy.InfoLevel, hook.LastEntry().Level)
 	assert.Equal("info", hook.LastEntry().Message)
 
 	wgAll.Wait()
@@ -79,14 +79,14 @@ func TestFatalWithAlternateExit(t *testing.T) {
 	logger.ExitFunc = func(code int) {}
 
 	logger.Fatal("something went very wrong")
-	assert.Equal(logrus.FatalLevel, hook.LastEntry().Level)
+	assert.Equal(logrusy.FatalLevel, hook.LastEntry().Level)
 	assert.Equal("something went very wrong", hook.LastEntry().Message)
 	assert.Equal(1, len(hook.Entries))
 }
 
 func TestNewLocal(t *testing.T) {
 	assert := assert.New(t)
-	logger := logrus.New()
+	logger := logrusy.New()
 
 	var wg sync.WaitGroup
 	defer wg.Wait()

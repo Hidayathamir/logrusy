@@ -1,6 +1,7 @@
+//go:build js
 // +build js
 
-package logrus
+package logrusy
 
 func isTerminal(fd int) bool {
 	return false

@@ -1,21 +1,21 @@
-package logrus_test
+package logrusy_test
 
 import (
 	"bytes"
 	"encoding/json"
 	"testing"
 
-	"github.com/sirupsen/logrus"
+	"github.com/Hidayathamir/logrusy"
 	"github.com/stretchr/testify/require"
 )
 
 func TestLevelJsonEncoding(t *testing.T) {
 	type X struct {
-		Level logrus.Level
+		Level logrusy.Level
 	}
 
 	var x X
-	x.Level = logrus.WarnLevel
+	x.Level = logrusy.WarnLevel
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	require.NoError(t, enc.Encode(x))
@@ -25,8 +25,8 @@ func TestLevelJsonEncoding(t *testing.T) {
 }
 
 func TestLevelUnmarshalText(t *testing.T) {
-	var u logrus.Level
-	for _, level := range logrus.AllLevels {
+	var u logrusy.Level
+	for _, level := range logrusy.AllLevels {
 		t.Run(level.String(), func(t *testing.T) {
 			require.NoError(t, u.UnmarshalText([]byte(level.String())))
 			require.Equal(t, level, u)
@@ -47,10 +47,10 @@ func TestLevelMarshalText(t *testing.T) {
 		"debug",
 		"trace",
 	}
-	for idx, val := range logrus.AllLevels {
+	for idx, val := range logrusy.AllLevels {
 		level := val
 		t.Run(level.String(), func(t *testing.T) {
-			var cmp logrus.Level
+			var cmp logrusy.Level
 			b, err := level.MarshalText()
 			require.NoError(t, err)
 			require.Equal(t, levelStrings[idx], string(b))

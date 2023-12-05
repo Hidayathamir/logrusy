@@ -3,7 +3,7 @@
 // +build !js
 // +build !wasi
 
-package logrus
+package logrusy
 
 import "golang.org/x/sys/unix"
 

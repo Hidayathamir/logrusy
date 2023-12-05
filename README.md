@@ -1,4 +1,4 @@
-# Logrus <img src="http://i.imgur.com/hTeVwmJ.png" width="40" height="40" alt=":walrus:" class="emoji" title=":walrus:"/> [![Build Status](https://github.com/sirupsen/logrus/workflows/CI/badge.svg)](https://github.com/sirupsen/logrus/actions?query=workflow%3ACI) [![Build Status](https://travis-ci.org/sirupsen/logrus.svg?branch=master)](https://travis-ci.org/sirupsen/logrus) [![Go Reference](https://pkg.go.dev/badge/github.com/sirupsen/logrus.svg)](https://pkg.go.dev/github.com/sirupsen/logrus)
+# Logrus <img src="http://i.imgur.com/hTeVwmJ.png" width="40" height="40" alt=":walrus:" class="emoji" title=":walrus:"/> [![Build Status](https://github.com/sirupsen/logrus/workflows/CI/badge.svg)](https://github.com/sirupsen/logrus/actions?query=workflow%3ACI) [![Build Status](https://travis-ci.org/sirupsen/logrusy.svg?branch=master)](https://travis-ci.org/sirupsen/logrus) [![Go Reference](https://pkg.go.dev/badge/github.com/sirupsen/logrusy.svg)](https://pkg.go.dev/github.com/sirupsen/logrus)
 
 Logrus is a structured logger for Go (golang), completely API compatible with
 the standard library logger.
@@ -131,7 +131,7 @@ func main() {
 
 Note that it's completely api-compatible with the stdlib logger, so you can
 replace your `log` imports everywhere with `log "github.com/sirupsen/logrus"`
-and you'll now have the flexibility of Logrus. You can customize it all you
+and you'll now have the flexibility of logrusy. You can customize it all you
 want:
 
 ```go
@@ -171,7 +171,7 @@ func main() {
   }).Fatal("The ice breaks!")
 
   // A common pattern is to re-use fields between logging statements by re-using
-  // the logrus.Entry returned from WithFields()
+  // the logrusy.Entry returned from WithFields()
   contextLogger := log.WithFields(log.Fields{
     "common": "this is a common field",
     "other": "I also should be logged always",
@@ -194,7 +194,7 @@ import (
 )
 
 // Create a new instance of the logger. You can have any number of instances.
-var log = logrus.New()
+var log = logrusy.New()
 
 func main() {
   // The API for setting attributes is a little different than the package level
@@ -202,14 +202,14 @@ func main() {
   log.Out = os.Stdout
 
   // You could set this to any `io.Writer` such as a file
-  // file, err := os.OpenFile("logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+  // file, err := os.OpenFile("logrusy.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
   // if err == nil {
   //  log.Out = file
   // } else {
   //  log.Info("Failed to log to file, using default stderr")
   // }
 
-  log.WithFields(logrus.Fields{
+  log.WithFields(logrusy.Fields{
     "animal": "walrus",
     "size":   10,
   }).Info("A group of walrus emerges from the ocean")
@@ -238,7 +238,7 @@ hours. The `WithFields` call is optional.
 
 In general, with Logrus using any of the `printf`-family functions should be
 seen as a hint you should add a field, however, you can still use the
-`printf`-family functions with Logrus.
+`printf`-family functions with logrusy.
 
 #### Default Fields
 
@@ -246,7 +246,7 @@ Often it's helpful to have fields _always_ attached to log statements in an
 application or parts of one. For example, you may want to always log the
 `request_id` and `user_ip` in the context of a request. Instead of writing
 `log.WithFields(log.Fields{"request_id": request_id, "user_ip": user_ip})` on
-every line, you can create a `logrus.Entry` to pass around instead:
+every line, you can create a `logrusy.Entry` to pass around instead:
 
 ```go
 requestLogger := log.WithFields(log.Fields{"request_id": request_id, "user_ip": user_ip})
@@ -314,7 +314,7 @@ that severity or anything above it:
 log.SetLevel(log.InfoLevel)
 ```
 
-It may be useful to set `log.Level = logrus.DebugLevel` in a debug or verbose
+It may be useful to set `log.Level = logrusy.DebugLevel` in a debug or verbose
 environment if your application has that.
 
 Note: If you want different log levels for global (`log.SetLevel(...)`) and syslog logging, please check the [syslog hook README](hooks/syslog/README.md#different-log-levels-for-local-and-remote-logging).
@@ -363,7 +363,7 @@ Splunk or Logstash.
 
 The built-in logging formatters are:
 
-* `logrus.TextFormatter`. Logs the event in colors if stdout is a tty, otherwise
+* `logrusy.TextFormatter`. Logs the event in colors if stdout is a tty, otherwise
   without colors.
   * *Note:* to force colored output when there is no TTY, set the `ForceColors`
     field to `true`.  To force no colored output even if there is a TTY  set the
@@ -373,7 +373,7 @@ The built-in logging formatters are:
     truncation set the `DisableLevelTruncation` field to `true`.
   * When outputting to a TTY, it's often helpful to visually scan down a column where all the levels are the same width. Setting the `PadLevelText` field to `true` enables this behavior, by adding padding to the level text.
   * All options are listed in the [generated docs](https://godoc.org/github.com/sirupsen/logrus#TextFormatter).
-* `logrus.JSONFormatter`. Logs fields as JSON.
+* `logrusy.JSONFormatter`. Logs fields as JSON.
   * All options are listed in the [generated docs](https://godoc.org/github.com/sirupsen/logrus#JSONFormatter).
 
 Third party logging formatters:
@@ -420,7 +420,7 @@ defer w.Close()
 
 srv := http.Server{
     // create a stdlib log.Logger that writes to
-    // logrus.Logger.
+    // logrusy.Logger.
     ErrorLog: log.New(w, "", 0),
 }
 ```
@@ -431,8 +431,8 @@ and hooks. The level for those entries is `info`.
 This means that we can override the standard library logger easily:
 
 ```go
-logger := logrus.New()
-logger.Formatter = &logrus.JSONFormatter{}
+logger := logrusy.New()
+logger.Formatter = &logrusy.JSONFormatter{}
 
 // Use logrus for standard log output
 // Note that `log` here references stdlib's log
@@ -442,7 +442,7 @@ log.SetOutput(logger.Writer())
 
 #### Rotation
 
-Log rotation is not provided with Logrus. Log rotation should be done by an
+Log rotation is not provided with logrusy. Log rotation should be done by an
 external program (like `logrotate(8)`) that can compress and delete old log
 entries. It should not be a feature of the application-level logger.
 
@@ -473,7 +473,7 @@ func TestSomething(t*testing.T){
   logger.Error("Helloerror")
 
   assert.Equal(t, 1, len(hook.Entries))
-  assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
+  assert.Equal(t, logrusy.ErrorLevel, hook.LastEntry().Level)
   assert.Equal(t, "Helloerror", hook.LastEntry().Message)
 
   hook.Reset()
@@ -493,7 +493,7 @@ to gracefully shutdown. Unlike a `panic("Something went wrong...")` call which c
 handler := func() {
   // gracefully shutdown something...
 }
-logrus.RegisterExitHandler(handler)
+logrusy.RegisterExitHandler(handler)
 ...
 ```
 

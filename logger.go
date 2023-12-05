@@ -87,7 +87,7 @@ func (mw *MutexWrap) Disable() {
 func New() *Logger {
 	return &Logger{
 		Out:          os.Stderr,
-		Formatter:    new(TextFormatter),
+		Formatter:    new(JSONFormatter),
 		Hooks:        make(LevelHooks),
 		Level:        InfoLevel,
 		ExitFunc:     os.Exit,
@@ -201,9 +201,22 @@ func (logger *Logger) Panicf(format string, args ...interface{}) {
 func (logger *Logger) Log(level Level, args ...interface{}) {
 	if logger.IsLevelEnabled(level) {
 		entry := logger.newEntry()
+		entry.Data["parsed_msg"] = getParsedMsg(args)
 		entry.Log(level, args...)
 		logger.releaseEntry(entry)
 	}
+}
+
+func getParsedMsg(args []interface{}) interface{} {
+	if len(args) == 0 {
+		return nil
+	}
+
+	if len(args) == 1 {
+		return args[0]
+	}
+
+	return args
 }
 
 func (logger *Logger) LogFn(level Level, fn LogFunction) {
